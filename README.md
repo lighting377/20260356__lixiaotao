@@ -101,10 +101,10 @@ cmake --build build
 
 ## 七、我的说明（5 分，请填写）
 
-- 姓名：
-- 学号：
-- 实现思路：
-- 遇到的问题与解决：
+- 姓名：李晓涛
+- 学号：20260356
+- 实现思路：按 TODO 的顺序推进。先在 "Complex.h" 的 "private:" 区声明 "real"、"imag" 两个 "double" 成员，把复数作为一个整体封装起来，外部只能通过成员函数访问。构造函数用初始化列表直接初始化这两个成员，并借助头文件里的默认参数 "Complex(double r = 0.0, double i = 0.0)" 同时支持 "Complex z"、"Complex z(3)"、"Complex z(3, 4)"三种写法；析构函数因为类里没有动态申请的内存，函数体留空即可。"operator+"、"operator-" 都写成 "const" 成员函数、参数是 "const" 引用，返回一个新的 "Complex" 对象，因此 "a + b" 不会改动 "a" 和 "b"，也能自然地连续写成 "a + b + Complex(5, 5)"。"print()" 用分支处理虚部的符号：虚部 ≥ 0 时输出 "a + bi"，虚部 < 0 时先取绝对值再输出 "a - b"，避免出现 "3 + -2i" 这种别扭的格式。"getReal()"、"getImag()" 则用来读取数据成员。
+- 遇到的问题与解决：一是构造函数最初写成函数体赋值，改成 "Complex::Complex(double r, double i) : real(r), imag(i) {}" 一行式的初始化列表后通过检查；二是 "print()" 起初直接拼接 "real << " + " << imag << "i""，虚部为负时会打印出两个符号，改为判断 "imag >= 0" 之后分两支输出，负数分支用 "-imag"；三是验证接口时发现编译产物要放在 "build/" 里运行，直接在项目根目录找 "complex_demo" 会找不到，按 README 的说明进 "build/" 即可；四是在 Windows 上用 MSVC 构建中文输出乱码，模板的 "CMakeLists.txt"已为 MSVC 加了 "/utf-8"，保持原样即可。五是我起初没有安装 C++ 编译工具链，命令行里找不到 cmake、ninja 和编译器，构建无法启动；安装 Visual Studio（自带 MSVC 编译器、CMake 与 Ninja）之后，用 cmake -B build -G Ninja 显式指定生成器，cmake --build build 与 ctest 才正常执行。这一步也说明，README 里的构建命令要以编译器和 CMake 已经就绪为前提。
 
 ## 八、提交前自检清单
 
