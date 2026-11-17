@@ -1,7 +1,7 @@
 // ============================================================
 // Complex.cpp - Complex 类成员函数实现（
 //
-// 每个函数都留了 TODO，补全后运行 ./build/complex_demo，
+// 实现完成后运行 ./build/complex_demo，应该输出：
 // 应该输出：
 //   a = 3 + 4i
 //   a + b = 4 + 6i
@@ -15,39 +15,38 @@
 
 using namespace std;
 
-// TODO(2): 用初始化列表实现，例如 : real(r), imag(i)
-Complex::Complex(double r, double i) {
-    (void)r;  // 占位，实现后删掉
-    (void)i;
-}
+// 构造函数：两个数据成员都在初始化列表中完成初始化。
+// 默认参数写在头文件里，所以 Complex z、Complex z(3)、Complex z(3, 4) 三种写法都能用。
+Complex::Complex(double r, double i) : real(r), imag(i) {}
 
-// TODO(3): 实现析构函数（本类没有动态内存，函数体可以为空）
-Complex::~Complex() {
-}
+// 析构函数：本类没有动态申请的资源，函数体留空即可。
+Complex::~Complex() {}
 
-// TODO(4): 复数相加
+// 复数相加：返回一个新对象，两个操作数都保持只读（const 成员函数 + const 参数）。
 Complex Complex::operator+(const Complex& other) const {
-    (void)other;
-    return Complex();  // 占位，实现后删掉
+    return Complex(real + other.real, imag + other.imag);
 }
 
-// TODO(5): 复数相减
+// 复数相减：实部、虚部分别相减，同样不修改操作数。
 Complex Complex::operator-(const Complex& other) const {
-    (void)other;
-    return Complex();  // 占位，实现后删掉
+    return Complex(real - other.real, imag - other.imag);
 }
 
-// TODO(6): 按约定格式打印
+// 按约定格式打印：虚部 >= 0 输出 "a + bi"，虚部 < 0 输出 "a - bi"（虚部取绝对值）
 void Complex::print() const {
-    cout << "TODO" << endl;
+    if (imag >= 0) {
+        cout << real << " + " << imag << "i" << endl;
+    } else {
+        cout << real << " - " << -imag << "i" << endl;
+    }
 }
 
-// TODO(7)
+// 读取实部：const 成员函数，不会修改对象。
 double Complex::getReal() const {
-    return 0;  // 占位
+    return real;
 }
 
-// TODO(8)
+// 读取虚部。
 double Complex::getImag() const {
-    return 0;  // 占位
+    return imag;
 }
